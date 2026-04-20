@@ -1,0 +1,18 @@
+import mysql from "mysql2"
+import "dotenv/config"
+
+export const db = mysql.createConnection({
+    host: process.env.DB_HOST,
+    user: process.env.DB_USER,
+    password: process.env.DB_PASSWORD,
+    database: process.env.DB_DATABASE,
+    port: process.env.DB_PORT || 3306
+})
+
+db.connect((err) => {
+    if (err) {
+        console.error("Erro ao conectar no Banco de Dados:", err.message)
+    } else {
+        console.log("Conectado ao Banco de Dados no Railway com sucesso!")
+    }
+})
