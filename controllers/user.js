@@ -70,7 +70,7 @@ export const updateUser = (req, res) => {
 export const deleteUser = (req, res) => {
     const q = "DELETE FROM tbUsuarios WHERE `id` = ?"
 
-    db.query(q, [req.params.id], (err) => {
+    db.query(q, [req.params.id], (err, data) => {
         if (err) return res.status(500).json(err)
         return res.status(200).json("Usuário excluído com sucesso.")
     })
