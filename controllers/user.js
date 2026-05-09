@@ -57,7 +57,7 @@ export const updateUser = (req, res) => {
         values.push(req.body.senha)
     }
 
-    q += " WHERE `ID` = ?"
+    q += " WHERE `usuario_id` = ?"
     values.push(req.params.id)
 
     db.query(q, values, (err) => {
@@ -68,7 +68,7 @@ export const updateUser = (req, res) => {
 
 
 export const deleteUser = (req, res) => {
-    const q = "DELETE FROM tbUsuarios WHERE `ID` = ?"
+    const q = "DELETE FROM tbUsuarios WHERE `usuario_id` = ?"
 
     console.log("Tentando excluir usuário com ID:", req.params.id);
 
