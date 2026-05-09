@@ -57,7 +57,7 @@ export const updateUser = (req, res) => {
         values.push(req.body.senha)
     }
 
-    q += " WHERE `id` = ?"
+    q += " WHERE `ID` = ?"
     values.push(req.params.id)
 
     db.query(q, values, (err) => {
@@ -68,11 +68,25 @@ export const updateUser = (req, res) => {
 
 
 export const deleteUser = (req, res) => {
-    const q = "DELETE FROM tbUsuarios WHERE `id` = ?"
+    const q = "DELETE FROM tbUsuarios WHERE `ID` = ?"
+
+    console.log("Tentando excluir usuário com ID:", req.params.id);
 
     db.query(q, [req.params.id], (err, data) => {
-        if (err) return res.status(500).json(err)
-        return res.status(200).json("Usuário excluído com sucesso.")
+        if (err) {
+            console.error("Erro ao excluir usuário no banco:", err);
+            return res.status(500).json({ 
+                error: "Erro interno no banco de dados.", 
+                details: err.message,
+                sql: err.sql 
+            });
+        }
+        
+        if (data.affectedRows === 0) {
+            return res.status(404).json("Usuário não encontrado.");
+        }
+
+        return res.status(200).json("Usuário excluído com sucesso.");
     })
 }
 
