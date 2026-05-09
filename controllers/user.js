@@ -47,3 +47,32 @@ export const getStats = (_, res) => {
     ]
     return res.status(200).json(stats)
 }
+
+export const updateUser = (req, res) => {
+    let q = "UPDATE tbUsuarios SET `nome` = ?, `login` = ?"
+    const values = [req.body.nome, req.body.login]
+
+    if (req.body.senha) {
+        q += ", `senha` = ?"
+        values.push(req.body.senha)
+    }
+
+    q += " WHERE `id` = ?"
+    values.push(req.params.id)
+
+    db.query(q, values, (err) => {
+        if (err) return res.status(500).json(err)
+        return res.status(200).json("Usuário atualizado com sucesso.")
+    })
+}
+
+
+export const deleteUser = (req, res) => {
+    const q = "DELETE FROM tbUsuarios WHERE `id` = ?"
+
+    db.query(q, [req.params.id], (err) => {
+        if (err) return res.status(500).json(err)
+        return res.status(200).json("Usuário excluído com sucesso.")
+    })
+}
+
